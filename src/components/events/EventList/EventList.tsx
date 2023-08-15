@@ -1,4 +1,5 @@
 import EventItem from "../EventItem/EventItem";
+import s from "./EventList.module.scss";
 
 interface EventItemType {
   title: string;
@@ -13,7 +14,7 @@ interface EventsArrayType {
 
 const EventList = ({ events }: EventsArrayType) => {
   return (
-    <ul>
+    <ul className={s.list}>
       {events.map((event) => (
         <EventItem key={event.id} event={event} />
       ))}

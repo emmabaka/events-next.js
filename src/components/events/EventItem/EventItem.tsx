@@ -1,5 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
+import s from "./EventItem.module.scss";
 
 interface EventItemType {
   event: {
@@ -23,20 +24,22 @@ const EventItem = ({
   const exploreLink = `/events/${id}`;
 
   return (
-    <li>
+    <li className={s.item}>
       <img src={`../../${image}`} alt={title} />
-      <div>
+      <div className={s.content}>
         <div>
           <h2>{title}</h2>
         </div>
-        <div>
+        <div className={s.date}>
           <time>{normalizedDate}</time>
         </div>
-        <div>
+        <div className={s.address}>
           <address>{formattedAddress}</address>
         </div>
-        <div>
-          <Link href={exploreLink}>Explore event</Link>
+        <div className={s.actions}>
+          <Link href={exploreLink} className="">
+            Explore event
+          </Link>
         </div>
       </div>
     </li>

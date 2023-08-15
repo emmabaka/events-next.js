@@ -2,7 +2,7 @@ import Head from "next/head";
 import { Inter } from "next/font/google";
 import { getFeaturedEvents } from "../../dummy-data";
 import EventList from "@/components/events/EventList/EventList";
-import styles from "@/styles/Home.module.css";
+import s from "./index.module.scss";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +16,7 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className={`${styles.main} ${inter.className}`}>
+      <main className={`${s.main} ${inter.className}`}>
         <EventList events={featuredEvents} />
       </main>
     </>
