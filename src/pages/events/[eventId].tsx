@@ -1,14 +1,22 @@
-import { useRouter } from "next/router";
-import { getEventById } from "../../../dummy-data";
-import EventSummary from "@/components/event-detail/EventSummary/EventSummary";
-import EventLogistics from "@/components/event-detail/EventLogistics/EventLogistics";
-import EventContent from "@/components/event-detail/EventContent/EventContent";
-import ErrorAlert from "@/components/ui/ErrorAlert/ErrorAlert";
+import { getEventById, getAllEvents } from '@/helpers/api-util';
+import EventSummary from '@/components/event-detail/EventSummary/EventSummary';
+import EventLogistics from '@/components/event-detail/EventLogistics/EventLogistics';
+import EventContent from '@/components/event-detail/EventContent/EventContent';
+import ErrorAlert from '@/components/ui/ErrorAlert/ErrorAlert';
+import { GetStaticPaths, GetStaticProps } from 'next';
+import { ParsedUrlQuery } from 'querystring';
+interface Event {
+  id: string;
+  date: string;
+  description: string;
+  image: string;
+  isFeatured: boolean;
+  location: string;
+  title: string;
+}
 
-const EventDetail = () => {
-  const router = useRouter();
-  const eventId = router.query.eventId;
-  const event = getEventById(eventId);
+const EventDetail = ({ selectedEvent }: { selectedEvent: Event }) => {
+  const event = selectedEvent;
 
   if (!event) {
     return (
@@ -31,6 +39,34 @@ const EventDetail = () => {
       </EventContent>
     </>
   );
+};
+
+interface IParams extends ParsedUrlQuery {
+  eventId: string;
+}
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const { eventId } = context.params as IParams;
+
+  const event = await getEventById(eventId);
+
+  return {
+    props: {
+      selectedEvent: event,
+    },
+  };
+};
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const events = getAllEvents();
+  const paths = (await events).map((event) => ({
+    params: { eventId: event.id },
+  }));
+
+  return {
+    paths,
+    fallback: false,
+  };
 };
 
 export default EventDetail;
