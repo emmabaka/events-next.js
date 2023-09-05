@@ -53,7 +53,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     props: {
       selectedEvent: event,
     },
-    revalidate: 1800
+    revalidate: 1800,
   };
 };
 
@@ -65,7 +65,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 

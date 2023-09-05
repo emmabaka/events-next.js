@@ -33,7 +33,7 @@ const Events = ({ events }: { events: Event[] }) => {
 };
 
 export const getStaticProps: GetStaticProps = async () => {
-  const events = getAllEvents();
+  const events = await getAllEvents();
 
   return {
     props: {
