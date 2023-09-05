@@ -1,4 +1,5 @@
 // import Head from "next/head";
+import { GetStaticProps } from 'next';
 import { getFeaturedEvents } from '@/helpers/api-util';
 import EventList from '@/components/events/EventList/EventList';
 import s from './index.module.scss';
@@ -27,7 +28,7 @@ export default function Home({ events }: { events: Events[] }) {
   );
 }
 
-export async function getStaticProps() {
+export const getStaticProps: GetStaticProps = async () => {
   const featuredEvents = await getFeaturedEvents();
 
   return {
@@ -36,4 +37,4 @@ export async function getStaticProps() {
     },
     revalidate: 1800,
   };
-}
+};

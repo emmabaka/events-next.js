@@ -2,7 +2,6 @@ import { getEventById, getFeaturedEvents } from '@/helpers/api-util';
 import EventSummary from '@/components/event-detail/EventSummary/EventSummary';
 import EventLogistics from '@/components/event-detail/EventLogistics/EventLogistics';
 import EventContent from '@/components/event-detail/EventContent/EventContent';
-import ErrorAlert from '@/components/ui/ErrorAlert/ErrorAlert';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 interface Event {

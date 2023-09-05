@@ -1,10 +1,19 @@
-import { useRouter } from "next/router";
-import EventsSearch from "@/components/events/EventsSearch/EventsSearch";
-import EventList from "@/components/events/EventList/EventList";
-import { getAllEvents } from "../../../dummy-data";
+import { useRouter } from 'next/router';
+import { GetStaticProps } from 'next';
+import EventsSearch from '@/components/events/EventsSearch/EventsSearch';
+import EventList from '@/components/events/EventList/EventList';
+import { getAllEvents } from '@/helpers/api-util';
+interface Event {
+  id: string;
+  date: string;
+  description: string;
+  image: string;
+  isFeatured: boolean;
+  location: string;
+  title: string;
+}
 
-const Events = () => {
-  const events = getAllEvents();
+const Events = ({ events }: { events: Event[] }) => {
   const router = useRouter();
 
   const findEventsHandler = (
@@ -21,6 +30,17 @@ const Events = () => {
       <EventList events={events} />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const events = getAllEvents();
+
+  return {
+    props: {
+      events,
+    },
+    revalidate: 600,
+  };
 };
 
 export default Events;
