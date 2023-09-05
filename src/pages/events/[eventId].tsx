@@ -1,8 +1,9 @@
+import { GetStaticPaths, GetStaticProps } from 'next';
+import Head from 'next/head';
 import { getEventById, getFeaturedEvents } from '@/helpers/api-util';
 import EventSummary from '@/components/event-detail/EventSummary/EventSummary';
 import EventLogistics from '@/components/event-detail/EventLogistics/EventLogistics';
 import EventContent from '@/components/event-detail/EventContent/EventContent';
-import { GetStaticPaths, GetStaticProps } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 interface Event {
   id: string;
@@ -26,6 +27,14 @@ const EventDetail = ({ selectedEvent }: { selectedEvent: Event }) => {
   }
   return (
     <>
+      <Head>
+        <title>{event.title}</title>
+        <meta
+          name='description'
+          content={event.description}
+        />
+      </Head>
+      
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
