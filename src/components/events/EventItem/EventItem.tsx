@@ -1,9 +1,9 @@
-import Image from 'next/image';
-import DateIcon from '@/components/icons/date-icon';
-import AddressIcon from '@/components/icons/address-icon';
-import ArrowRightIcon from '@/components/icons/arrow-right-icon';
-import Button from '@/components/ui/Button/Button';
-import s from './EventItem.module.scss';
+import Image from "next/image";
+import DateIcon from "@/components/icons/DateIcon";
+import AddressIcon from "@/components/icons/AddressIcon";
+import ArrowRightIcon from "@/components/icons/ArrowRightIcon";
+import Button from "@/components/ui/Button/Button";
+import s from "./EventItem.module.scss";
 
 interface EventItemType {
   event: {
@@ -18,12 +18,12 @@ interface EventItemType {
 const EventItem = ({
   event: { title, image, date, location, id },
 }: EventItemType) => {
-  const normalizedDate = new Date(date).toLocaleDateString('en-US', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
+  const normalizedDate = new Date(date).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
   });
-  const formattedAddress = location.replace(', ', '\n');
+  const formattedAddress = location.replace(", ", "\n");
   const exploreLink = `/events/${id}`;
 
   return (

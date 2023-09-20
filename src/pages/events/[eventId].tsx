@@ -1,10 +1,11 @@
-import { GetStaticPaths, GetStaticProps } from 'next';
-import Head from 'next/head';
-import { getEventById, getFeaturedEvents } from '@/helpers/api-util';
-import EventSummary from '@/components/event-detail/EventSummary/EventSummary';
-import EventLogistics from '@/components/event-detail/EventLogistics/EventLogistics';
-import EventContent from '@/components/event-detail/EventContent/EventContent';
-import { ParsedUrlQuery } from 'querystring';
+import { GetStaticPaths, GetStaticProps } from "next";
+import Head from "next/head";
+import { getEventById, getFeaturedEvents } from "@/helpers/api-util";
+import EventSummary from "@/components/event-detail/EventSummary/EventSummary";
+import EventLogistics from "@/components/event-detail/EventLogistics/EventLogistics";
+import EventContent from "@/components/event-detail/EventContent/EventContent";
+import Comments from "@/components/input/Comments/Comments";
+import { ParsedUrlQuery } from "querystring";
 interface Event {
   id: string;
   date: string;
@@ -20,7 +21,7 @@ const EventDetail = ({ selectedEvent }: { selectedEvent: Event }) => {
 
   if (!event) {
     return (
-      <div className='center'>
+      <div className="center">
         <p>Loading...</p>
       </div>
     );
@@ -29,12 +30,9 @@ const EventDetail = ({ selectedEvent }: { selectedEvent: Event }) => {
     <>
       <Head>
         <title>{event.title}</title>
-        <meta
-          name='description'
-          content={event.description}
-        />
+        <meta name="description" content={event.description} />
       </Head>
-      
+
       <EventSummary title={event.title} />
       <EventLogistics
         date={event.date}
@@ -45,6 +43,7 @@ const EventDetail = ({ selectedEvent }: { selectedEvent: Event }) => {
       <EventContent>
         <p>{event.description}</p>
       </EventContent>
+      <Comments eventId={event.id} />
     </>
   );
 };
@@ -74,7 +73,7 @@ export const getStaticPaths: GetStaticPaths = async () => {
 
   return {
     paths,
-    fallback: 'blocking',
+    fallback: "blocking",
   };
 };
 

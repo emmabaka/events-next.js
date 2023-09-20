@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { GetStaticProps } from 'next';
-import { getFeaturedEvents } from '@/helpers/api-util';
-import EventList from '@/components/events/EventList/EventList';
-import s from './index.module.scss';
+import { GetStaticProps } from "next";
+import { getFeaturedEvents } from "@/helpers/api-util";
+import EventList from "@/components/events/EventList/EventList";
+import NewsletterRegister from "@/components/input/NewsletterRegister/NewsletterRegister";
+import s from "./index.module.scss";
 interface Events {
   id: string;
   date: string;
@@ -18,9 +19,13 @@ export default function Home({ events }: { events: Events[] }) {
     <>
       <Head>
         <title>Events | Home</title>
-        <meta name="description" content="Find a lot of great events that allow you to evolve..." />
+        <meta
+          name="description"
+          content="Find a lot of great events that allow you to evolve..."
+        />
       </Head>
 
+      <NewsletterRegister />
       <EventList events={events} />
     </>
   );
