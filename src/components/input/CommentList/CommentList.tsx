@@ -1,21 +1,22 @@
 import s from "./CommentList.module.scss";
+interface Comment {
+  id: string
+  name: string
+  email: string
+  text: string
+}
 
-function CommentList() {
+function CommentList({items}:{items: Comment[]}) {
   return (
     <ul className={s.comments}>
-      {/* Render list of comments - fetched from API */}
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
-      <li>
-        <p>My comment is amazing!</p>
-        <div>
-          By <address>Maximilian</address>
-        </div>
-      </li>
+      {items.map(({id, text, name}) => (
+        <li key={id}>
+          <p>{text}</p>
+          <div>
+            By <address>{name}</address>
+          </div>
+        </li>
+      ))}
     </ul>
   );
 }

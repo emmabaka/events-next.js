@@ -4,7 +4,11 @@ import s from "./NewComment.module.scss";
 function NewComment({
   onAddComment,
 }: {
-  onAddComment: (commentData: {}) => void;
+  onAddComment: (commentData: {
+    email: string;
+    name: string;
+    text: string;
+  }) => void;
 }) {
   const [isInvalid, setIsInvalid] = useState(false);
 
@@ -12,6 +16,7 @@ function NewComment({
   const nameInputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const commentInputRef: MutableRefObject<HTMLTextAreaElement | null> =
     useRef(null);
+  const formRef: MutableRefObject<HTMLFormElement | null> = useRef(null);
 
   function sendCommentHandler(event: FormEvent) {
     event.preventDefault();
@@ -20,10 +25,12 @@ function NewComment({
     const enteredName = nameInputRef.current!.value;
     const enteredComment = commentInputRef.current!.value;
 
+    const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
     if (
       !enteredEmail ||
       enteredEmail.trim() === "" ||
-      !enteredEmail.includes("@") ||
+      !emailPattern.test(enteredEmail) ||
       !enteredName ||
       enteredName.trim() === "" ||
       !enteredComment ||
@@ -38,10 +45,12 @@ function NewComment({
       name: enteredName,
       text: enteredComment,
     });
+
+    formRef.current!.reset();
   }
 
   return (
-    <form className={s.form}>
+    <form className={s.form} onSubmit={sendCommentHandler} ref={formRef}>
       <div className={s.row}>
         <div className={s.control}>
           <label htmlFor="email">Your email</label>
@@ -56,8 +65,10 @@ function NewComment({
         <label htmlFor="comment">Your comment</label>
         <textarea id="comment" rows={5} ref={commentInputRef}></textarea>
       </div>
-      {isInvalid && <p>Please enter a valid email address and comment!</p>}
-      <button>Submit</button>
+      {isInvalid && (
+        <p>Please enter a valid email address, name and comment!</p>
+      )}
+      <button className={s.submit}>Submit</button>
     </form>
   );
 }

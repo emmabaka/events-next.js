@@ -3,7 +3,6 @@ import { GetStaticProps } from "next";
 import { getFeaturedEvents } from "@/helpers/api-util";
 import EventList from "@/components/events/EventList/EventList";
 import NewsletterRegister from "@/components/input/NewsletterRegister/NewsletterRegister";
-import s from "./index.module.scss";
 interface Events {
   id: string;
   date: string;

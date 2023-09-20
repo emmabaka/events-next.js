@@ -35,8 +35,18 @@
   border: 1px solid #ccc;
   width: 100%;
   background-color: #dcfff9;
+  outline: none;
 }
 
-.form button {
+.submit {
+  border-radius: 6px;
+  padding: 0.5rem 1rem;
+  color: #03be9f;
+  border: 1px solid #03be9f;
   background-color: white;
+}
+
+.submit:hover,
+.submit:active {
+  background-color: #dcfff9;
 }
