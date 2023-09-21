@@ -1,22 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { MongoClient } from "mongodb";
-
-async function connectDatabase() {
-  const client = await MongoClient.connect(
-    "mongodb+srv://emma:Hx8Z5qlIHpQJaDnN@cluster1.evdwtxy.mongodb.net/events?retryWrites=true&w=majority"
-  );
-
-  return client;
-}
-
-async function insertDocument(
-  client: MongoClient,
-  document: { email: string }
-) {
-  const db = client.db();
-
-  await db.collection("newsletter").insertOne(document);
-}
+import { connectDatabase, insertDocument } from "@/helpers/db-util";
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === "POST") {
@@ -37,7 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     }
 
     try {
-      await insertDocument(client, { email: userEmail });
+      await insertDocument(client, "newsletter", { email: userEmail });
       client!.close();
     } catch (error) {
       res.status(500).json({ message: "Inserting data failed!" });
