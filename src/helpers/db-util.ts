@@ -18,12 +18,12 @@ export async function insertDocument(
  return await db.collection(collection).insertOne(document);
 }
 
-export async function getAllDocuments(client: MongoClient, collection: string, sort: Sort) {
+export async function getAllDocuments(client: MongoClient, collection: string, sort: Sort, filter = {}) {
      const db = client.db();
 
      const documents = await db
        .collection(collection)
-       .find()
+       .find(filter)
        .sort(sort)
        .toArray();
 
