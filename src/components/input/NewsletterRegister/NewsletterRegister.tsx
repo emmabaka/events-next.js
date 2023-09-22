@@ -1,14 +1,22 @@
-import { FormEvent, MutableRefObject, useRef } from "react";
+import { FormEvent, MutableRefObject, useRef, useContext } from "react";
+import NotificationContext from "@/store/notification-context";
 import s from "./NewsletterRegister.module.scss";
 
 function NewsletterRegister() {
   const emailInputRef: MutableRefObject<HTMLInputElement | null> = useRef(null);
   const formRef: MutableRefObject<HTMLFormElement | null> = useRef(null);
+  const notificationCtx = useContext(NotificationContext);
 
   function registrationHandler(event: FormEvent) {
     event.preventDefault();
-    console.log(event);
+
     const enteredEmail = emailInputRef.current!.value;
+
+    notificationCtx.showNotification({
+      title: "Singing up...",
+      message: "Registering for newsletter.",
+      status: "pending",
+    });
 
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
@@ -20,11 +28,36 @@ function NewsletterRegister() {
           "Content-Type": "application/json",
         },
       })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
+        .then((res) => {
+          if (res.ok) {
+            return res.json();
+          } else {
+            return res.json().then((data) => {
+              throw new Error(data.message || "Something went wrong!");
+            });
+          }
+        })
+        .then((data) => {
+          notificationCtx.showNotification({
+            title: "Success!",
+            message: "Successfully registered for newsletter",
+            status: "success",
+          });
+        })
+        .catch((error) => {
+          notificationCtx.showNotification({
+            title: "Error!",
+            message: error.message || "Something went wrong!",
+            status: "error",
+          });
+        });
       formRef.current!.reset();
     } else {
-      alert("Invalid email");
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "Please, enter a correct email",
+        status: "error",
+      });
     }
   }
 
