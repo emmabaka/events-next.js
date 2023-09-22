@@ -1,4 +1,11 @@
-import { FormEvent, MutableRefObject, useRef, useState } from "react";
+import {
+  FormEvent,
+  MutableRefObject,
+  useContext,
+  useRef,
+  useState,
+} from "react";
+import NotificationContext from "@/store/notification-context";
 import s from "./NewComment.module.scss";
 
 function NewComment({
@@ -18,12 +25,20 @@ function NewComment({
     useRef(null);
   const formRef: MutableRefObject<HTMLFormElement | null> = useRef(null);
 
+  const notificationCtx = useContext(NotificationContext);
+
   function sendCommentHandler(event: FormEvent) {
     event.preventDefault();
 
     const enteredEmail = emailInputRef.current!.value;
     const enteredName = nameInputRef.current!.value;
     const enteredComment = commentInputRef.current!.value;
+
+    notificationCtx.showNotification({
+      title: "Sending...",
+      message: "Sending comment.",
+      status: "pending",
+    });
 
     const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
 
@@ -37,6 +52,11 @@ function NewComment({
       enteredComment.trim() === ""
     ) {
       setIsInvalid(true);
+      notificationCtx.showNotification({
+        title: "Error!",
+        message: "Please enter a valid email address, name and comment!",
+        status: "error",
+      });
       return;
     }
 

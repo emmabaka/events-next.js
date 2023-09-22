@@ -15,17 +15,22 @@ export async function insertDocument(
 ) {
   const db = client.db();
 
- return await db.collection(collection).insertOne(document);
+  return await db.collection(collection).insertOne(document);
 }
 
-export async function getAllDocuments(client: MongoClient, collection: string, sort: Sort, filter = {}) {
-     const db = client.db();
+export async function getAllDocuments(
+  client: MongoClient,
+  collection: string,
+  sort: Sort,
+  filter = {}
+) {
+  const db = client.db();
 
-     const documents = await db
-       .collection(collection)
-       .find(filter)
-       .sort(sort)
-       .toArray();
+  const documents = await db
+    .collection(collection)
+    .find(filter)
+    .sort(sort)
+    .toArray();
 
-       return documents
+  return documents;
 }
